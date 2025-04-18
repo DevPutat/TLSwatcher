@@ -6,11 +6,13 @@ import (
 	"github.com/DevPutat/TLSwatcher/internal/types"
 )
 
-func Request(domain types.Domain, domainCh chan types.Domain) {
+func Request(domain types.Domain) types.Domain {
+	domain.IsConnected = false
 	conn, err := tls.Dial("tcp", domain.Url+":443", &tls.Config{
 		InsecureSkipVerify: true,
 	})
 	if err == nil {
+		domain.IsConnected = true
 		defer conn.Close()
 		certs := conn.ConnectionState().PeerCertificates
 		if len(certs) != 0 {
@@ -18,5 +20,5 @@ func Request(domain types.Domain, domainCh chan types.Domain) {
 			domain.Expire = cert.NotAfter
 		}
 	}
-	domainCh <- domain
+	return domain
 }

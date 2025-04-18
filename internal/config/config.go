@@ -20,8 +20,8 @@ func parse(reader io.Reader) ([]types.Domain, error) {
 			continue
 		}
 		res = append(res, types.Domain{
-			Url:       url,
-			Connected: false,
+			Url:         url,
+			IsConnected: false,
 		})
 	}
 	if err := scanner.Err(); err != nil {
