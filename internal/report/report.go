@@ -17,19 +17,18 @@ var headerReport = `
 ===============================================================================
 `
 var rowTemplate = "%-30s | %-20s | %-10s\n"
-var warningIcon = "⚠️Warning"
 
 func TextReports(domains []types.Domain) string {
 	res := fmt.Sprintf(headerReport, "URL", "Дата истечения", "STATUS")
 	for _, domain := range domains {
 		icon := ""
 		if domain.IsAttention() {
-			icon = warningIcon
+			icon = types.WarningIcon
 		}
 		res += fmt.Sprintf(
 			rowTemplate,
 			domain.Url,
-			domain.Expire.Format("09.07.2006"),
+			domain.Expire.Format(types.DateFormat),
 			icon,
 		)
 	}
