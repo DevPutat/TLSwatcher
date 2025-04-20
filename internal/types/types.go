@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+var ConfigFilePath = "domains.ini"
 var TimeToAttention = time.Hour * 24 * 3
 
 type Domain struct {

@@ -29,7 +29,7 @@ func TextReports(domains []types.Domain) string {
 		res += fmt.Sprintf(
 			rowTemplate,
 			domain.Url,
-			domain.Expire.Format("09.07.2017"),
+			domain.Expire.Format("09.07.2006"),
 			icon,
 		)
 	}
