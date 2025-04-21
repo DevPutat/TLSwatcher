@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/DevPutat/TLSwatcher/internal/logs"
 	"github.com/DevPutat/TLSwatcher/internal/types"
 )
 
@@ -32,10 +33,19 @@ func parse(reader io.Reader) ([]types.Domain, error) {
 
 func Domains(confPath string) ([]types.Domain, error) {
 	if _, err := os.Stat(confPath); errors.Is(err, os.ErrNotExist) {
+
+		logs.Add(types.ErrorLog{
+			Package: "config",
+			Err:     err,
+		})
 		return nil, err
 	}
 	file, err := os.Open(confPath)
 	if err != nil {
+		logs.Add(types.ErrorLog{
+			Package: "config",
+			Err:     err,
+		})
 		return nil, err
 	}
 	defer file.Close()
@@ -45,12 +55,21 @@ func Domains(confPath string) ([]types.Domain, error) {
 func InputDomains(confPath string) error {
 	file, err := os.Create(confPath)
 	if err != nil {
+
+		logs.Add(types.ErrorLog{
+			Package: "config",
+			Err:     err,
+		})
 		return err
 	}
 	defer file.Close()
 	fmt.Println("Введите список доменов, разделяя их пробелами")
 	err = write(os.Stdin, file)
 	if err != nil {
+		logs.Add(types.ErrorLog{
+			Package: "config",
+			Err:     err,
+		})
 		return err
 	}
 	return nil

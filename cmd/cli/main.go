@@ -6,6 +6,8 @@ import (
 	"strings"
 
 	"github.com/DevPutat/TLSwatcher/internal/config"
+	"github.com/DevPutat/TLSwatcher/internal/logs"
+	"github.com/DevPutat/TLSwatcher/internal/notify"
 	"github.com/DevPutat/TLSwatcher/internal/report"
 	"github.com/DevPutat/TLSwatcher/internal/request"
 	"github.com/DevPutat/TLSwatcher/internal/types"
@@ -13,8 +15,10 @@ import (
 
 func main() {
 	flagEdit := flag.Bool("edit", false, "заполнить список доменов")
+	flagNotify := flag.Bool("notify", false, "без вывода - только уведомления")
 
 	flag.Parse()
+	logs.CreateLogFile()
 
 	if *flagEdit {
 		err := config.InputDomains(types.ConfigFilePath)
@@ -37,6 +41,12 @@ func main() {
 	}
 	for i, domain := range domains {
 		domains[i] = request.Request(domain)
+		if *flagNotify {
+			notify.DomainNotify(domains[i])
+		}
 	}
-	fmt.Println(report.TextReports(domains))
+	if !*flagNotify {
+		fmt.Println(report.TextReports(domains))
+	}
+
 }

@@ -3,6 +3,7 @@ package request
 import (
 	"crypto/tls"
 
+	"github.com/DevPutat/TLSwatcher/internal/logs"
 	"github.com/DevPutat/TLSwatcher/internal/types"
 )
 
@@ -19,6 +20,11 @@ func Request(domain types.Domain) types.Domain {
 			cert := certs[0]
 			domain.Expire = cert.NotAfter
 		}
+	} else {
+		logs.Add(types.ErrorLog{
+			Package: "request",
+			Err:     err,
+		})
 	}
 	return domain
 }

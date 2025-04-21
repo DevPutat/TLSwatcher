@@ -7,9 +7,21 @@ import (
 
 var ConfigFilePath = "domains.ini"
 var HistoryFilePath = "history.json"
+var LogFilePath = "tlswatcher.log"
 var TimeToAttention = time.Hour * 24 * 3
 var WarningIcon = "⚠️Warning"
 var DateFormat = "02.01.2006"
+var DateTimeFormat = "02.01.2006 15:04:05"
+
+type ErrorLog struct {
+	Package string
+	Err     error
+}
+
+func (e ErrorLog) String() string {
+	now := time.Now()
+	return fmt.Sprintf("%s:[%s]:: %v", now.Format(DateTimeFormat), e.Package, e.Err)
+}
 
 type History struct {
 	Domains  []Domain  `json:"domains"`

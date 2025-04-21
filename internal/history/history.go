@@ -7,17 +7,27 @@ import (
 	"os"
 	"time"
 
+	"github.com/DevPutat/TLSwatcher/internal/logs"
 	"github.com/DevPutat/TLSwatcher/internal/types"
 )
 
 func Read(historyPath string) types.History {
 
 	if _, err := os.Stat(historyPath); errors.Is(err, os.ErrNotExist) {
+
+		logs.Add(types.ErrorLog{
+			Package: "history",
+			Err:     err,
+		})
 		return types.History{}
 	}
 
 	file, err := os.Open(historyPath)
 	if err != nil {
+		logs.Add(types.ErrorLog{
+			Package: "history",
+			Err:     err,
+		})
 		return types.History{}
 	}
 	defer file.Close()
@@ -32,6 +42,10 @@ func Read(historyPath string) types.History {
 func Write(historyPath string, domains []types.Domain) {
 
 	if _, err := os.Stat(historyPath); errors.Is(err, os.ErrNotExist) {
+		logs.Add(types.ErrorLog{
+			Package: "history",
+			Err:     err,
+		})
 	}
 	now := time.Now()
 	h := types.History{
