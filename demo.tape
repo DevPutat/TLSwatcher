@@ -67,7 +67,7 @@ Set Height 1000
 # Type "echo 'Welcome to VHS!'" Sleep 500ms  Enter
 
 # Sleep 5s
-Type "./builds/tlswatcher-cli -edit=true" 
+Type "./builds/tlswatcher-cli -edit" 
 Enter
 
 # Ввод текста "google.com ya.ru"
