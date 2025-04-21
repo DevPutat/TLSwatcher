@@ -49,6 +49,8 @@ func (m mainPage) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "r":
 			requestAndSave()
+			m.datetime = h.Datetime
+			m.table = makeTable(h.Domains)
 		case "u":
 			updateHistory()
 			m.datetime = h.Datetime
